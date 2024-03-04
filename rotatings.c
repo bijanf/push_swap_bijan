@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_count.c                                       :+:      :+:    :+:   */
+/*   rotatings.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bfallah- <bfallah-@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/26 10:34:31 by bfallah-          #+#    #+#             */
-/*   Updated: 2024/03/04 14:09:02 by bfallah-         ###   ########.fr       */
+/*   Created: 2024/03/04 13:34:45 by bfallah-          #+#    #+#             */
+/*   Updated: 2024/03/04 13:35:43 by bfallah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stdbool.h>
-#include <stdio.h>
 #include "push_swap.h"
 
-
-static void	reverse_rotate(t_node **stack)
+static void	rotate(t_node **stack)
 {
 	t_node	*last_node;
 	int				len;
 
 	len = stack_len(*stack);
-	if (stack == NULL || NULL == *stack || 1 == len)
+	if (NULL == stack || NULL == *stack || 1 == len)
 		return ;
 	last_node = find_last_node(*stack);
 	last_node->next = *stack;
@@ -31,31 +27,25 @@ static void	reverse_rotate(t_node **stack)
 	last_node->next->prev = last_node;
 	last_node->next->next = NULL;
 }
-void	rra(t_node **a, bool checker)
+
+void	ra(t_node **a, bool checker)
 {
-	reverse_rotate(a);
+	rotate(a);
 	if (!checker)
-		write(1, "rra\n", 4);
+		write(1, "ra\n", 3);
 }
 
-void	rrb(t_node **b, bool checker)
+void	rb(t_node **b, bool checker)
 {
-	reverse_rotate(b);
+	rotate(b);
 	if (!checker)
-		write(1, "rrb\n", 4);
+		write(1, "rb\n", 3);
 }
 
-void	rrr(t_node **a, t_node **b, bool checker)
+void	rr(t_node **a, t_node **b, bool checker)
 {
-	reverse_rotate(a);
-	reverse_rotate(b);
+	rotate(a);
+	rotate(b);
 	if (!checker)
-		write(1, "rrr\n", 4);
+		write(1, "rr\n", 3);
 }
-/*
-int	main(void)
-{
-	char	*str = "          Hello World     khfekfjhe ouylhyn dfmdvwteih 548r5 5 ";
-	printf("%d\n", word_count(str, ' '));
-	return (0);
-}*/

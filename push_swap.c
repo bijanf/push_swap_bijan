@@ -6,7 +6,7 @@
 /*   By: bfallah- <bfallah-@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 09:29:17 by bfallah-          #+#    #+#             */
-/*   Updated: 2024/03/04 09:08:24 by bfallah-         ###   ########.fr       */
+/*   Updated: 2024/03/04 14:18:46 by bfallah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,19 @@ static long	ft_atol(const char *str)
 	}
 	return (num * isneg);
 }
-// Function to parse and validate input
+t_node	*return_cheapest(t_node *stack)
+{
+	if (NULL == stack)
+		return (NULL);
+	while (stack)
+	{
+		if (stack->cheapest)
+			return (stack);
+		stack = stack->next;
+	}
+	return (NULL);
+}
+
 void	init_input(t_node **a, char **argv, bool flag_argc_2)
 {
 	long	nbr;
@@ -64,15 +76,11 @@ void	init_input(t_node **a, char **argv, bool flag_argc_2)
 		free_all(argv);
 }
 
-// Main sorting algorithm
-//void radix_sort(t_node *a, t_node *b);
-
-// Main program
 int main(int argc, char **argv)
 {
 	t_node *a;
 	t_node *b;
-    // Initialize stacks a and b
+
 	a = NULL;
 	b = NULL;
 	if (argc < 2 || (argc == 2 && !argv[1][0]))
@@ -89,21 +97,9 @@ int main(int argc, char **argv)
 		if (stack_len(a) == 2)
 			sa(&a, false);
 		else if (stack_len(a) == 3)
-			tiny_sort(&a);
+			three_sort(&a);
 		else
 			push_swap(&a, &b);
 	}
-	// Perform sorting
-	//radix_sort(&a, &b);
-
-	// Cleanup and exit
-	// Free resources if needed
-	/*int	i;
-	i = 0;
-	while (argv[i])
-	{
-		printf("%s\n", argv[i]);
-		i++;
-	}*/
 	return (0);
 }
