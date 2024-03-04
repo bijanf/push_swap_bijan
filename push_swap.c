@@ -6,70 +6,104 @@
 /*   By: bfallah- <bfallah-@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 09:29:17 by bfallah-          #+#    #+#             */
-/*   Updated: 2024/02/26 09:03:34 by bfallah-         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:08:24 by bfallah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "push_swap.h"
 #include <limits.h>
-#include <string.h>
+//#include <stdio.h>
 
-// Define your stack node structure
-typedef struct s_node
+static long	ft_atol(const char *str)
 {
-	int	value;
-	struct s_node	next;
-}	t_node;
+	long	num;
+	int		isneg;
+	int		i;
 
-// Define your stack structure
-typedef struct s_stack
-{
-	t_node	*top;
-}	t_stack;
-
-// Function prototypes for stack operations
-void	sa(t_stack	*a);
-void	sb(t_stack	*b);
-void	ss(t_stack	*a, t_stack	*b);
-void	pa(t_stack	*a, t_stack	*b);
-void	pb(t_stack	*a, t_stack	*b);
-void	ra(t_stack	*a);
-void	rb(t_stack	*b);
-void	rr(t_stack	*a, t_stack	*b);
-void	rra(t_stack	*a);
-void	rrb(t_stack	*b);
-void	rrr(t_stack	*a, t_stack	*b);
-
+	num = 0;
+	isneg = 1;
+	i = 0;
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'
+			|| str[i] == '\n' || str[i] == '\r'
+			|| str[i] == '\v' || str[i] == '\f'))
+		i++;
+	if (str[i] == '+')
+		i++;
+	else if (str[i] == '-')
+	{
+		isneg *= -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		num = (num * 10) + (str[i] - '0');
+		i++;
+	}
+	return (num * isneg);
+}
 // Function to parse and validate input
-int parse_input(int argc, char **argv, t_stack *a);
+void	init_input(t_node **a, char **argv, bool flag_argc_2)
+{
+	long	nbr;
+	int		i;
+
+	i = 0;
+	while (argv[i])
+	{
+		if (syntax_error(argv[i]))
+			free_error(a, argv, flag_argc_2);
+		nbr = ft_atol(argv[i]);
+		if (nbr > INT_MAX || nbr < INT_MIN)
+			free_error(a, argv, flag_argc_2);
+		if (error_repet(*a, (int)nbr))
+			free_error(a, argv, flag_argc_2);
+		append_node(a, (int)nbr);
+		++i;
+	}
+	if (flag_argc_2)
+		free_all(argv);
+}
 
 // Main sorting algorithm
-void radix_sort(t_stack *a, t_stack *b);
+//void radix_sort(t_node *a, t_node *b);
 
 // Main program
-int main(int argc, char **argv) {
-	if (argc < 2) {
-		printf("Error\n");
-		return 1;
+int main(int argc, char **argv)
+{
+	t_node *a;
+	t_node *b;
+    // Initialize stacks a and b
+	a = NULL;
+	b = NULL;
+	if (argc < 2 || (argc == 2 && !argv[1][0]))
+	{
+		return (1);
 	}
-
-	t_stack a, b;
-	// Initialize stacks a and b
-
-	if (!parse_input(argc, argv, &a)) {
-		printf("Error\n");
-		// Free resources if needed
-		return 1;
+	if (argc == 2)
+	{
+		argv = ft_split(argv[1], ' ');
 	}
-
+	init_input(&a, argv + 1, argc == 2);
+	if (!sorted(a))
+	{
+		if (stack_len(a) == 2)
+			sa(&a, false);
+		else if (stack_len(a) == 3)
+			tiny_sort(&a);
+		else
+			push_swap(&a, &b);
+	}
 	// Perform sorting
-	radix_sort(&a, &b);
+	//radix_sort(&a, &b);
 
 	// Cleanup and exit
 	// Free resources if needed
-
-	return 0;
+	/*int	i;
+	i = 0;
+	while (argv[i])
+	{
+		printf("%s\n", argv[i]);
+		i++;
+	}*/
+	return (0);
 }
-
-// Implementations of parse_input, radix_sort, and stack operations

@@ -6,13 +6,14 @@
 /*   By: bfallah- <bfallah-@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:51 by bfallah-          #+#    #+#             */
-/*   Updated: 2024/02/26 14:05:46 by bfallah-         ###   ########.fr       */
+/*   Updated: 2024/03/04 08:24:10 by bfallah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stdio.h>
-#include "libft/libft.h"
+#include <stddef.h>
+#include <stdlib.h>
 
 size_t	ft_strlen(const char *s)
 {
@@ -52,35 +53,57 @@ static int	word_count(char *c, char seperator)
 	}
 	return (count);
 }
-
-char	**ft_split(char const *s, char c)
+static char	*get_next_word(char *str, char separator)
 {
-	char	**lst;
-	size_t	word_len;
-	int		i;
+	static int	cursor = 0;
+	char		*next_str;
+	int			len;
+	int			i;
 
-	lst = (char **)malloc((word_count(s, c) + 1) * sizeof(char *));
-	if (!s || !lst)
-		return (0);
+	len = 0;
 	i = 0;
-	while (*s)
-	{
-		while (*s == c && *s)
-			s++;
-		if (*s)
-		{
-			if (!ft_strchr(s, c))
-				word_len = ft_strlen(s);
-			else
-				word_len = ft_strchr(s, c) - s;
-			lst[i++] = ft_substr(s, 0, word_len);
-			s += word_len;
-		}
-	}
-	lst[i] = NULL;
-	return (lst);
+	while (str[cursor] == separator)
+		++cursor;
+	while ((str[cursor + len] != separator) && str[cursor + len])
+		++len;
+	next_str = malloc((size_t)len * sizeof(char) + 1);
+	if (NULL == next_str)
+		return (NULL);
+	while ((str[cursor] != separator) && str[cursor])
+		next_str[i++] = str[cursor++];
+	next_str[i] = '\0';
+	return (next_str);
 }
 
+char	**ft_split(char *str, char separator)
+{
+	int		words_number;
+	char	**vector_strings;
+	int		i;
+
+	i = 0;
+	words_number = word_count(str, separator);
+	if (!words_number)
+		exit(1);
+	vector_strings = malloc(sizeof(char *) * (size_t)(words_number + 2));
+	if (NULL == vector_strings)
+		return (NULL);
+	while (words_number-- >= 0)
+	{
+		if (0 == i)
+		{
+			vector_strings[i] = malloc(sizeof(char));
+			if (NULL == vector_strings[i])
+				return (NULL);
+			vector_strings[i++][0] = '\0';
+			continue ;
+		}
+		vector_strings[i++] = get_next_word(str, separator);
+	}
+	vector_strings[i] = NULL;
+	return (vector_strings);
+}
+/*
 int main(void)
 {
 	char	*str = "          Hello World     khfekfjhe ouylhyn dfmdvwteih 548r5 5 ";
@@ -96,3 +119,4 @@ int main(void)
 	}
 	return (0);
 }
+*/

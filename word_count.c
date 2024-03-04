@@ -6,14 +6,13 @@
 /*   By: bfallah- <bfallah-@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:34:31 by bfallah-          #+#    #+#             */
-/*   Updated: 2024/02/26 13:08:08 by bfallah-         ###   ########.fr       */
+/*   Updated: 2024/03/04 08:52:34 by bfallah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "libft/libft.h"
 
 static int	word_count(char *c, char seperator)
 {
