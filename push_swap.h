@@ -6,29 +6,59 @@
 /*   By: bfallah- <bfallah-@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:43:27 by bfallah-          #+#    #+#             */
-/*   Updated: 2024/03/04 14:11:03 by bfallah-         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:34:16 by bfallah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
+# define INTMAX 2147483647
+# define INTMIN -2147483648
 # include <stdlib.h>
 # include <limits.h>
 # include <stdbool.h>
 # include <unistd.h>
-typedef struct s_node
+
+typedef struct t_stack
 {
-	int					value;
-	int					current_position;
-	int					final_index;
-	int					push_price;
-	bool				above_median;
-	bool				cheapest;
-	struct s_node	*target_node;
-	struct s_node	*next;
-	struct s_node	*prev;
-}				t_node;
+	int		values;
+	struct t_stack	*next;  
+}			t_stack;
+
+typedef struct	t_stacks
+{
+	struct t_stack		*first_a;
+	struct t_stack		*first_b;
+	struct t_statistics	*stats;
+	struct t_actions_cheap 	*acts;
+	struct t_actions_cheap	*cheap;
+}				t_stacks
+
+typedef struct	t_statistics
+{
+	int	max_a;
+	int	max_b;
+	int	min_a;
+	int	min_b;
+}		t_statistics
+
+typedef struct	t_actions_cheap
+{
+	int	cost;
+	int	sa;
+	int	sb;
+	int	ss;
+	int	pa;
+	int	pb;
+	int	ra;
+	int	rb;
+	int	rr;
+	int	rra;
+	int	rrb;
+	int	rrr;
+}		t_actions_cheap;
+
 
 void		sa(t_node	**a, bool is_print);
 void		sb(t_node **b, bool is_print);
