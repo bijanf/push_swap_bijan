@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_sort.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bfallah- <bfallah-@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 09:29:17 by bfallah-          #+#    #+#             */
-/*   Updated: 2024/03/19 13:37:16 by bfallah-         ###   ########.fr       */
+/*   Created: 2024/03/04 12:41:07 by bfallah-          #+#    #+#             */
+/*   Updated: 2024/03/19 15:07:24 by bfallah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	main(int argc, char **argv)
+void	ft_sort(t_stacks *stacks)
 {
-	t_stacks	stack;
-
-	check_inputs(argc, argv);
-	stack.first_a = create_list_a(argc, argv);
-	stack.first_b = NULL;
-	if_doubles(stack.first_a);
-	ft_sort(&stack);
-	free_all(&stack);
+	if (check_list_order(stacks))
+		return ;
+	if (ft_listsize(stacks->first_a) == 2)
+		sort_two(stacks);
+	else if (ft_listsize(stacks->first_a) == 3)
+		sort_three(stacks, 1);
+	else if (ft_listsize(stacks->first_a) == 4)
+		sort_four(stacks);
+	ft_push(stacks, 'b');
+	ft_push(stacks, 'b');
+	move_cheapest(stacks);
+	sort_three(stacks, 0);
+	move_stack_a(stacks);
 }

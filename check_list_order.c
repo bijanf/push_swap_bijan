@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   check_list_order.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bfallah- <bfallah-@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 09:29:17 by bfallah-          #+#    #+#             */
-/*   Updated: 2024/03/19 13:37:16 by bfallah-         ###   ########.fr       */
+/*   Created: 2024/03/04 13:05:38 by bfallah-          #+#    #+#             */
+/*   Updated: 2024/03/19 13:38:31 by bfallah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	main(int argc, char **argv)
+int	check_list_order(t_stacks *stacks)
 {
-	t_stacks	stack;
+	t_stack	*ptr;
+	int		i;
+	int		num;
 
-	check_inputs(argc, argv);
-	stack.first_a = create_list_a(argc, argv);
-	stack.first_b = NULL;
-	if_doubles(stack.first_a);
-	ft_sort(&stack);
-	free_all(&stack);
+	i = 1;
+	ptr = stacks->first_a;
+	num = ptr->values;
+	while (i++ < ft_listsize(stacks->first_a))
+	{
+		ptr = ptr->next;
+		if (num > ptr->values)
+			return (0);
+		num = ptr->values;
+	}
+	ft_clearnodes(&stacks->first_a);
+	exit(0);
 }
